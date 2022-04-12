@@ -367,7 +367,7 @@ require'nvim-treesitter.configs'.setup {
 -- inactive statuslines as thin lines
 -- vim.cmd("hi StatusLineNC guifg=Red gui=underline")
 
--- general configuration
+-- General configuration
 
 -- set like variable
 local set = vim.opt
