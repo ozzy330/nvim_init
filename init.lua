@@ -382,6 +382,7 @@ set.wrap = false -- avoid wrapping lines
 
 set.splitbelow = true -- new split below of current
 set.splitright = true -- new split rigth of current
+set.laststatus = 3 -- Global status line
 
 set.number = true -- add numbers for lines
 set.numberwidth = 3
