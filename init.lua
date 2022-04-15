@@ -1,3 +1,7 @@
+-- LazyLoad some time:
+--https://elianiva.my.id/post/improving-nvim-startup-time#prerequisite
+
+
 -- Plugins
 packer = require 'packer'
 -- Change default options for packer
@@ -22,40 +26,43 @@ packer.startup({function()
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
 
   use "EdenEast/nightfox.nvim" -- Theme
-  use 'ntk148v/vim-horizon'
 
   use 'nvim-lua/plenary.nvim' -- Complementary library of lua functions for some plugins
   -- Telescope
   -- Suggested / Optional dependencies
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-  use 'kyazdani42/nvim-web-devicons'
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make', event = 'BufEnter'}
+  use {'kyazdani42/nvim-web-devicons', event = 'BufEnter'}
   use {
     'nvim-telescope/telescope.nvim',
-    requires = { {'nvim-lua/plenary.nvim'} }
+    requires = { {'nvim-lua/plenary.nvim'} },
+    event = 'BufEnter'
   }
-  use { "nvim-telescope/telescope-file-browser.nvim" } -- manage files
-  use { "nvim-telescope/telescope-dap.nvim" } -- easy acces to debugger things
+  use { "nvim-telescope/telescope-file-browser.nvim", event = 'BufEnter'} -- manage files
+  use { "nvim-telescope/telescope-dap.nvim", event = 'BufEnter'} -- easy acces to debugger things
 
   -- For better syntax highlight
   use {
       'nvim-treesitter/nvim-treesitter',
-      run = ':TSUpdate'
+      run = ':TSUpdate',
+      event = 'BufEnter'
   }
 
   -- Statusline
   use {
     'nvim-lualine/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true }, 
+    event = 'BufEnter'
   }
 
   -- Tabs manager
   use {
     'romgrk/barbar.nvim',
-    requires = {'kyazdani42/nvim-web-devicons'}
+    requires = {'kyazdani42/nvim-web-devicons'},
+    event = 'BufEnter'
   }
 
   -- PopUp Terminal
-  use {"akinsho/toggleterm.nvim"}
+  use {"akinsho/toggleterm.nvim", event = 'BufEnter'}
 
   -- Git integrations
   use {
@@ -65,16 +72,18 @@ packer.startup({function()
     },
     config = function()
       require('gitsigns').setup()
-    end
+    end,
+    event = 'BufEnter'
   }
-  use {'tpope/vim-fugitive'}
+  use {'tpope/vim-fugitive', event = 'BufEnter'}
 
   -- Manage comments
   use {
     'numToStr/Comment.nvim',
     config = function()
         require('Comment').setup()
-    end
+    end, 
+    event = 'BufEnter'
   }
   use {
     "folke/todo-comments.nvim",
@@ -96,18 +105,19 @@ packer.startup({function()
           pattern = [[\b(KEYWORDS)(\([^\)]*\))?:]],
         },
       }
-    end
+    end, 
+    event = 'BufEnter'
   }
 
   -- Extra
-  use {'max397574/better-escape.nvim'}
-  use {'karb94/neoscroll.nvim'}
-  use {'andymass/vim-matchup'}
+  use {'max397574/better-escape.nvim', event = 'BufEnter'}
+  use {'karb94/neoscroll.nvim', event = 'BufEnter'}
+  use {'andymass/vim-matchup', event = 'BufEnter'}
 
   -- Debbugger
-  use 'mfussenegger/nvim-dap'
-  use "Pocco81/DAPInstall.nvim"
-  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
+  use {'mfussenegger/nvim-dap', event = 'BufEnter'}
+  use {"Pocco81/DAPInstall.nvim", event = 'BufEnter'}
+  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"}, event = 'BufEnter'}
 
 end,
 -- Make packer use a floating window for outputs
