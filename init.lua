@@ -25,44 +25,44 @@ packer.startup({function()
   use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
 
-  use "EdenEast/nightfox.nvim" -- Theme
+  use {'sainnhe/gruvbox-material'} -- Theme
 
   use 'nvim-lua/plenary.nvim' -- Complementary library of lua functions for some plugins
   -- Telescope
   -- Suggested / Optional dependencies
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make', event = 'BufEnter'}
-  use {'kyazdani42/nvim-web-devicons', event = 'BufEnter'}
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
+  use {'kyazdani42/nvim-web-devicons'}
   use {
     'nvim-telescope/telescope.nvim',
     requires = { {'nvim-lua/plenary.nvim'} },
-    event = 'BufEnter'
+    
   }
-  use { "nvim-telescope/telescope-file-browser.nvim", event = 'BufEnter'} -- manage files
-  use { "nvim-telescope/telescope-dap.nvim", event = 'BufEnter'} -- easy acces to debugger things
+  use { "nvim-telescope/telescope-file-browser.nvim"} -- manage files
+  use { "nvim-telescope/telescope-dap.nvim"} -- easy acces to debugger things
 
   -- For better syntax highlight
   use {
       'nvim-treesitter/nvim-treesitter',
       run = ':TSUpdate',
-      event = 'BufEnter'
+      
   }
 
   -- Statusline
   use {
     'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true }, 
-    event = 'BufEnter'
+    
   }
 
   -- Tabs manager
   use {
     'romgrk/barbar.nvim',
     requires = {'kyazdani42/nvim-web-devicons'},
-    event = 'BufEnter'
+    
   }
 
   -- PopUp Terminal
-  use {"akinsho/toggleterm.nvim", event = 'BufEnter'}
+  use {"akinsho/toggleterm.nvim"}
 
   -- Git integrations
   use {
@@ -73,9 +73,9 @@ packer.startup({function()
     config = function()
       require('gitsigns').setup()
     end,
-    event = 'BufEnter'
+    
   }
-  use {'tpope/vim-fugitive', event = 'BufEnter'}
+  use {'tpope/vim-fugitive'}
 
   -- Manage comments
   use {
@@ -83,7 +83,7 @@ packer.startup({function()
     config = function()
         require('Comment').setup()
     end, 
-    event = 'BufEnter'
+    
   }
   use {
     "folke/todo-comments.nvim",
@@ -106,18 +106,17 @@ packer.startup({function()
         },
       }
     end, 
-    event = 'BufEnter'
   }
 
   -- Extra
-  use {'max397574/better-escape.nvim', event = 'BufEnter'}
-  use {'karb94/neoscroll.nvim', event = 'BufEnter'}
-  use {'andymass/vim-matchup', event = 'BufEnter'}
+  use {'max397574/better-escape.nvim'}
+  use {'karb94/neoscroll.nvim'}
+  use {'andymass/vim-matchup'}
 
   -- Debbugger
-  use {'mfussenegger/nvim-dap', event = 'BufEnter'}
-  use {"Pocco81/DAPInstall.nvim", event = 'BufEnter'}
-  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"}, event = 'BufEnter'}
+  use {'mfussenegger/nvim-dap'}
+  use {"Pocco81/DAPInstall.nvim"}
+  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"}}
 
 end,
 -- Make packer use a floating window for outputs
@@ -369,7 +368,7 @@ require('toggleterm').setup{}
 -- Git integrations
 
 -- colors configuration
-vim.cmd("colorscheme nightfox")
+vim.cmd("colorscheme gruvbox-material")
 require'nvim-treesitter.configs'.setup {
   highlight = {enable = true },
 }
