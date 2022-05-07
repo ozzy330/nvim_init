@@ -46,6 +46,12 @@ packer.startup({ function()
     run = ':TSUpdate',
   }
 
+  -- For auto nohls afert some move
+  use {"romainl/vim-cool"}
+
+  -- To move faster on screen
+  use {'ggandor/lightspeed.nvim'}
+
   -- Statusline
   use {
     'nvim-lualine/lualine.nvim',
@@ -161,7 +167,7 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
@@ -393,8 +399,7 @@ set.splitbelow = true -- new split below of current
 set.splitright = true -- new split rigth of current
 set.laststatus = 3 -- Global status line
 
-set.number = true -- add numbers for lines
-set.numberwidth = 3
+set.number = false -- remove numbers for lines
 
 set.signcolumn = "yes:1"
 set.cursorline = false
