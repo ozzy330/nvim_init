@@ -426,11 +426,12 @@ keymap('i', '<c-h>', '<c-w>', { noremap = true }) -- delete previous word (h = b
 -- manage splits
 keymap('n', '<C-s>l', ':vsp<cr>', options) -- create vertical split
 keymap('n', '<C-s>j', ':sp<cr>', options) -- create horizontal split
-keymap('n', '-', '5<c-w>+', { noremap = true }) -- increase split height
+keymap('n', '_', '5<c-w><', { noremap = true }) -- increase split height
 keymap('n', '+', '5<c-w>>', { noremap = true }) -- increase split width
 keymap('n', '=', '<c-w>=', { noremap = true }) -- normalize all split sizes
+keymap('n', '<m-_>', '5<c-w>-', { noremap = true }) -- increase split height
+keymap('n', '<m-=>', '5<c-w>+', { noremap = true }) -- increase split width
 keymap('n', '<C-s>x', ':only<cr>', options) -- close all but current split
-
 keymap('n', '<c-j>', '<c-w><c-j>', { noremap = true }) -- move to split below
 keymap('n', '<c-k>', '<c-w><c-k>', { noremap = true }) -- move to split above
 keymap('n', '<c-l>', '<c-w><c-l>', { noremap = true }) -- move to split on the right
@@ -463,6 +464,9 @@ keymap('n', '<leader>DD', '<cmd>Telescope dap list_breakpoints theme=dropdown<CR
 
 -- PopUp terminal configuration
 keymap('n', 'tt', ':ToggleTerm direction=float<CR>', options) -- Toogle terminal
+keymap('n', 'tvt', ':ToggleTerm direction=vertical<CR>', options) -- Toogle terminal
+keymap('n', 'tht', ':ToggleTerm direction=horizontal<CR>', options) -- Toogle terminal
+keymap('n', '<leader>tt', ':ToggleTerm direction=tab<CR>', options) -- Toogle terminal
 keymap('t', '<ESC>', '<C-\\><C-N>:ToggleTerm<CR>', options) -- Easily exit popup terminal
 
 -- Manage debbuger
