@@ -14,7 +14,13 @@ packer.startup({ function()
   use 'wbthomason/packer.nvim' -- Plugint manager packer
 
   use { 'neovim/nvim-lspconfig' } -- Collection of configurations for the built-in LSP client
-  use { 'williamboman/nvim-lsp-installer' } -- Insaller of LSP servers
+
+  -- use { 'williamboman/nvim-lsp-installer' } -- Insaller of LSP servers
+  use { "williamboman/mason.nvim" }
+  require("mason").setup()
+  use { "williamboman/mason-lspconfig.nvim" }
+  require("mason-lspconfig").setup()
+
   use { 'hrsh7th/nvim-cmp' } -- Autocompletion plugin
   use { 'hrsh7th/cmp-nvim-lsp' } -- LSP source for nvim-cmp
   use { 'hrsh7th/cmp-nvim-lua' } -- Nvim-cmp source for neovim Lua API.
@@ -27,6 +33,7 @@ packer.startup({ function()
 
   use { 'sainnhe/gruvbox-material' } -- Theme
   use { 'rmehri01/onenord.nvim' }
+  use { "rebelot/kanagawa.nvim" }
 
   use 'nvim-lua/plenary.nvim' -- Complementary library of lua functions for some plugins
   -- Telescope
@@ -167,7 +174,7 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<c-?>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
@@ -177,6 +184,10 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>FO', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
+
+
+require'lspconfig'.jedi_language_server.setup{}
+
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
@@ -200,22 +211,22 @@ vim.diagnostic.config({
 })
 
 -- LSP servers
-local lsp_installer = require("nvim-lsp-installer")
+-- local lsp_installer = require("nvim-lsp-installer")
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 -- Register a handler that will be called for each installed server when it's ready (i.e. when installation is finished
 -- or if the server is already installed).
-lsp_installer.on_server_ready(function(server)
-  local opts = {
-    on_attach = on_attach,
-    capabilities = capabilities
-  }
-  -- NOTE: tal vez agregar aquí el compilador
-  -- This setup() function will take the provided server configuration and decorate it with the necessary properties
-  -- before passing it onwards to lspconfig.
-  -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-  server:setup(opts)
-end)
+-- lsp_installer.on_server_ready(function(server)
+--   local opts = {
+--     on_attach = on_attach,
+--     capabilities = capabilities
+--   }
+--   -- NOTE: tal vez agregar aquí el compilador
+--   -- This setup() function will take the provided server configuration and decorate it with the necessary properties
+--   -- before passing it onwards to lspconfig.
+--   -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+--   server:setup(opts)
+-- end)
 
 -- Nvim-cmp && LuaSnip configuration
 local has_words_before = function()
@@ -369,14 +380,14 @@ require('toggleterm').setup {}
 -- Git integrations
 
 -- colors configuration
-vim.cmd [[colorscheme onenord]]
+vim.cmd [[colorscheme kanagawa]]
 require 'nvim-treesitter.configs'.setup {
   highlight = { enable = true },
 }
 require('lualine').setup {
-  options = {
-    theme = 'onenord'
-  }
+  -- options = {
+  --   theme = 'onenord'
+  -- }
 }
 
 -- inactive statuslines as thin lines
@@ -430,7 +441,7 @@ keymap('n', '_', '5<c-w><', { noremap = true }) -- increase split height
 keymap('n', '+', '5<c-w>>', { noremap = true }) -- increase split width
 keymap('n', '=', '<c-w>=', { noremap = true }) -- normalize all split sizes
 keymap('n', '<m-_>', '5<c-w>-', { noremap = true }) -- increase split height
-keymap('n', '<m-=>', '5<c-w>+', { noremap = true }) -- increase split width
+keymap('n', '<m-+>', '5<c-w>+', { noremap = true }) -- increase split width
 keymap('n', '<C-s>x', ':only<cr>', options) -- close all but current split
 keymap('n', '<c-j>', '<c-w><c-j>', { noremap = true }) -- move to split below
 keymap('n', '<c-k>', '<c-w><c-k>', { noremap = true }) -- move to split above
@@ -440,6 +451,8 @@ keymap('n', '<c-h>', '<c-w><c-h>', { noremap = true }) -- move to split on the l
 -- manage buffers
 keymap('n', '<s-l>', ':BufferNext<CR>', options) -- go to next buffer
 keymap('n', '<s-h>', ':BufferPrevious<CR>', options) -- go to previous buffer
+keymap('n', '<a-l>', ':BufferMoveNext<CR>', options) -- move current buffer to the left
+keymap('n', '<a-h>', ':BufferMovePrevious<CR>', options) -- move current buffer to the right
 keymap('n', '<space><S-x>', ':BufferClose<CR>', options) -- close buffer without messing with splits
 keymap('n', '<space><S-o>', ':BufferCloseAllButCurrent<CR>', options) -- close all buffers except current
 
@@ -456,7 +469,7 @@ keymap('n', '<leader>fb', '<cmd>Telescope buffers theme=dropdown<CR>', options) 
 keymap('n', '<leader>fs', '<cmd>Telescope lsp_document_symbols theme=dropdown<CR>', options) -- Find code symbols
 keymap('n', '<leader>fr', '<cmd>Telescope lsp_references theme=dropdown<CR>', options) -- Find referens of hover word
 keymap('n', '<leader>fe', '<cmd>Telescope diagnostics theme=dropdown<CR>', options) -- Find errors in code
-keymap('n', '<leader>fa', '<cmd>Telescope lsp_code_actions theme=dropdown<CR>', options) -- Find quick fixes for erros
+keymap('n', '<leader>fc', '<cmd>Telescope lsp_code_actions theme=dropdown<CR>', options) -- Find quick fixes for erros
 -- load_extensions
 keymap('n', '<leader>FF', '<cmd>Telescope file_browser theme=dropdown<CR>', options) -- Browse folders and files
 keymap('n', '<leader>fn', '<cmd>TodoTelescope theme=dropdown<CR>', options) -- Find especial comments
