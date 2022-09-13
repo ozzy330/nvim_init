@@ -20,6 +20,14 @@ packer.startup({ function()
   require("mason").setup()
   use { "williamboman/mason-lspconfig.nvim" }
   require("mason-lspconfig").setup()
+  use { "jose-elias-alvarez/null-ls.nvim" }
+  require("null-ls").setup({
+    sources = {
+        require("null-ls").builtins.formatting.stylua,
+        require("null-ls").builtins.diagnostics.eslint,
+        require("null-ls").builtins.completion.spell,
+    },
+  })
 
   use { 'hrsh7th/nvim-cmp' } -- Autocompletion plugin
   use { 'hrsh7th/cmp-nvim-lsp' } -- LSP source for nvim-cmp
@@ -187,6 +195,7 @@ end
 
 
 require'lspconfig'.jedi_language_server.setup{}
+require'lspconfig'.clangd.setup{}
 
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
@@ -470,6 +479,7 @@ keymap('n', '<leader>fs', '<cmd>Telescope lsp_document_symbols theme=dropdown<CR
 keymap('n', '<leader>fr', '<cmd>Telescope lsp_references theme=dropdown<CR>', options) -- Find referens of hover word
 keymap('n', '<leader>fe', '<cmd>Telescope diagnostics theme=dropdown<CR>', options) -- Find errors in code
 keymap('n', '<leader>fc', '<cmd>Telescope lsp_code_actions theme=dropdown<CR>', options) -- Find quick fixes for erros
+keymap('n', '<leader>cf', '<cmd>lua vim.lsp.buf.formatting()<CR>', options)
 -- load_extensions
 keymap('n', '<leader>FF', '<cmd>Telescope file_browser theme=dropdown<CR>', options) -- Browse folders and files
 keymap('n', '<leader>fn', '<cmd>TodoTelescope theme=dropdown<CR>', options) -- Find especial comments
@@ -481,6 +491,10 @@ keymap('n', 'tvt', ':ToggleTerm direction=vertical<CR>', options) -- Toogle term
 keymap('n', 'tht', ':ToggleTerm direction=horizontal<CR>', options) -- Toogle terminal
 keymap('n', '<leader>tt', ':ToggleTerm direction=tab<CR>', options) -- Toogle terminal
 keymap('t', '<ESC>', '<C-\\><C-N>:ToggleTerm<CR>', options) -- Easily exit popup terminal
+keymap('t', '<c-j>', '<C-\\><C-N><c-w><c-j>', { noremap = true }) -- move to split below
+keymap('t', '<c-k>', '<C-\\><C-N><c-w><c-k>', { noremap = true }) -- move to split above
+keymap('t', '<c-l>', '<C-\\><C-N><c-w><c-l>', { noremap = true }) -- move to split on the right
+keymap('t', '<c-h>', '<C-\\><C-N><c-w><c-h>', { noremap = true }) -- move to split on the left
 
 -- Manage debbuger
 keymap('n', '<leader>b', ":lua require'dap'.toggle_breakpoint()<CR>", options) -- Add Breakpoint to line
